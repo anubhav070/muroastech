@@ -55,6 +55,20 @@ import {
 
 import { Button } from "../components/ui/button";
 
+// Images live in  src/imports/  (one level above "app")
+import aiImage from "../../imports/ai.png";
+import mobileImage from "../../imports/moblie.png"; // file name in your folder is "moblie.png"
+import webImage from "../../imports/Web.png";
+import erpImage from "../../imports/erp.png";
+import cloudDevOpsImage from "../../imports/Cloud_DevOps.png";
+import uiUxImage from "../../imports/UI_UX.png";
+
+// Product images from src/imports
+import schoolProductImage from "../../imports/school.png";
+import rmsProductImage from "../../imports/rms.png";
+import hmsProductImage from "../../imports/hms.png";
+import amsProductImage from "../../imports/ams.png";
+
 /* --------------------------- CONTACT INFO --------------------------- */
 
 const PHONE_DISPLAY = "+91 84591 61017";
@@ -99,12 +113,12 @@ const aboutPoints = [
 ];
 
 const services = [
-  { icon: BrainCircuit, title: "AI & ML Solutions", text: "Custom models, predictive analytics and AI assistants built around your own data.", tags: ["Prediction", "Chatbots", "Automation"], tint: "from-violet-500 to-indigo-600" },
-  { icon: Smartphone, title: "Mobile App Development", text: "Cross-platform Flutter apps for Android and iOS with smooth, native-like performance.", tags: ["Flutter", "Firebase", "Play Store"], tint: "from-sky-500 to-blue-600" },
-  { icon: Globe, title: "Web Development", text: "Fast, responsive websites and web apps built with React, Laravel and Node.js.", tags: ["React", "Laravel", "Node.js"], tint: "from-cyan-500 to-teal-600" },
-  { icon: Code2, title: "Custom Software & ERP", text: "Tailored management, billing and ERP systems that fit the way your business works.", tags: ["ERP", "Billing", "Dashboards"], tint: "from-emerald-500 to-green-600" },
-  { icon: Cloud, title: "Cloud & DevOps", text: "Secure deployment, monitoring and scaling on modern cloud infrastructure.", tags: ["Deployment", "Security", "Monitoring"], tint: "from-orange-500 to-amber-600" },
-  { icon: PenTool, title: "UI/UX Design", text: "Clean, intuitive interfaces designed around how your users actually work.", tags: ["Research", "Prototypes", "Design systems"], tint: "from-pink-500 to-rose-600" },
+  { icon: BrainCircuit, image: aiImage, title: "AI & ML Solutions", text: "Custom models, predictive analytics and AI assistants built around your own data.", tags: ["Prediction", "Chatbots", "Automation"], tint: "from-violet-500 to-indigo-600" },
+  { icon: Smartphone, image: mobileImage, title: "Mobile App Development", text: "Cross-platform Flutter apps for Android and iOS with smooth, native-like performance.", tags: ["Flutter", "Firebase", "Play Store"], tint: "from-sky-500 to-blue-600" },
+  { icon: Globe, image: webImage, title: "Web Development", text: "Fast, responsive websites and web apps built with React, Laravel and Node.js.", tags: ["React", "Laravel", "Node.js"], tint: "from-cyan-500 to-teal-600" },
+  { icon: Code2, image: erpImage, title: "Custom Software & ERP", text: "Tailored management, billing and ERP systems that fit the way your business works.", tags: ["ERP", "Billing", "Dashboards"], tint: "from-emerald-500 to-green-600" },
+  { icon: Cloud, image: cloudDevOpsImage, title: "Cloud & DevOps", text: "Secure deployment, monitoring and scaling on modern cloud infrastructure.", tags: ["Deployment", "Security", "Monitoring"], tint: "from-orange-500 to-amber-600" },
+  { icon: PenTool, image: uiUxImage, title: "UI/UX Design", text: "Clean, intuitive interfaces designed around how your users actually work.", tags: ["Research", "Prototypes", "Design systems"], tint: "from-pink-500 to-rose-600" },
 ];
 
 const showcase = [
@@ -132,10 +146,34 @@ const showcase = [
 ];
 
 const products = [
-  { title: "School ERP System", description: "Complete school management solution with AI-powered analytics.", icon: GraduationCap, gradient: "from-sky-400 via-blue-500 to-indigo-600", path: "/products" },
-  { title: "Clinic Management", description: "Patient management, appointment booking and AI-based insights.", icon: HeartPulse, gradient: "from-emerald-400 via-teal-500 to-cyan-600", path: "/products" },
-  { title: "Restaurant Management", description: "Online ordering, menu & KOT management with real-time analytics.", icon: Utensils, gradient: "from-orange-400 via-amber-500 to-red-500", path: "/products" },
-  { title: "AI & ML Solutions", description: "Custom AI models and data solutions tailored to your business.", icon: BrainCircuit, gradient: "from-violet-600 via-indigo-600 to-blue-500", path: "/ai-solutions" },
+  {
+    title: "School ERP System",
+    description: "Complete school management solution for students, staff, fees and academics.",
+    icon: GraduationCap,
+    image: schoolProductImage,
+    path: "/products",
+  },
+  {
+    title: "Restaurant Management",
+    description: "Manage restaurant orders, billing, KOT, tables and daily operations.",
+    icon: Utensils,
+    image: rmsProductImage,
+    path: "/products",
+  },
+  {
+    title: "Hospital Management",
+    description: "Coordinate patient records, appointments, billing and hospital workflows.",
+    icon: HeartPulse,
+    image: hmsProductImage,
+    path: "/products",
+  },
+  {
+    title: "AI & ML Solutions",
+    description: "Intelligent models, predictive analytics and AI-powered automation.",
+    icon: BrainCircuit,
+    image: amsProductImage,
+    path: "/ai-solutions",
+  },
 ];
 
 // NOTE: replace with your real numbers before going live.
@@ -320,11 +358,21 @@ function FloatingContact() {
     return () => { document.removeEventListener("mousedown", onDown); document.removeEventListener("keydown", onKey); };
   }, [open]);
 
-  const options = [
+  const options: {
+    icon: React.ComponentType<{ className?: string }>;
+    label: string;
+    sub: string;
+    bg: string;
+    href?: string;
+    to?: string;
+    external?: boolean;
+  }[] = [
     { icon: Phone, label: "Call Now", sub: PHONE_DISPLAY, href: PHONE_LINK, bg: "bg-[#0f1a35]" },
     { icon: MessageCircle, label: "WhatsApp", sub: "Chat instantly", href: WHATSAPP_LINK, bg: "bg-emerald-500", external: true },
     { icon: CalendarCheck, label: "Free Consultation", sub: "Send us your requirement", to: "/contact", bg: "bg-blue-600" },
   ];
+
+  const cls = "flex items-center gap-3 rounded-full border border-slate-100 bg-white p-1.5 pr-3 shadow-xl transition-transform hover:scale-105";
 
   return (
     <div ref={ref} className="fixed bottom-5 right-4 z-50 flex flex-col items-end gap-3 sm:right-6">
@@ -342,7 +390,6 @@ function FloatingContact() {
                 </span>
               </>
             );
-            const cls = "flex items-center gap-3 rounded-full border border-slate-100 bg-white p-1.5 pr-3 shadow-xl transition-transform hover:scale-105";
             return (
               <motion.div
                 key={o.label}
@@ -351,7 +398,7 @@ function FloatingContact() {
                 exit={{ opacity: 0, y: 12, scale: 0.9 }}
                 transition={{ duration: 0.25, delay: (options.length - 1 - i) * 0.05 }}
               >
-                {"to" in o && o.to ? (
+                {o.to ? (
                   <Link to={o.to} className={cls} onClick={() => setOpen(false)}>{inner}</Link>
                 ) : (
                   <a href={o.href} className={cls} {...(o.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>{inner}</a>
@@ -630,20 +677,30 @@ export function Home() {
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <SectionHead label="WHAT WE DO" title="End-to-End Technology Services" sub="From the first idea to a live product, everything you need under one roof." />
           <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map(({ icon: Icon, title, text, tags, tint }, i) => (
+            {services.map(({ icon: Icon, image, title, text, tags, tint }, i) => (
               <Reveal key={title} delay={(i % 3) * 0.1}>
                 <TiltCard className="h-full">
-                  <div className="group relative h-full overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-2xl hover:shadow-blue-900/10">
-                    <div className={`absolute -right-10 -top-10 h-32 w-32 rounded-full bg-gradient-to-br ${tint} opacity-10 transition-all duration-500 group-hover:scale-150 group-hover:opacity-20`} />
-                    <div className={`relative grid h-12 w-12 place-items-center rounded-xl bg-gradient-to-br ${tint} text-white shadow-lg transition-transform duration-300 group-hover:rotate-6 group-hover:scale-110`}>
-                      <Icon className="h-6 w-6" />
+                  <div className="group relative h-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-2xl hover:shadow-blue-900/10">
+                    <div className="relative h-44 overflow-hidden bg-slate-100">
+                      <img
+                        src={image}
+                        alt={title}
+                        loading="lazy"
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
                     </div>
-                    <h3 className="relative mt-5 text-lg font-extrabold">{title}</h3>
-                    <p className="relative mt-2 text-sm leading-6 text-slate-600">{text}</p>
-                    <div className="relative mt-4 flex flex-wrap gap-2">
-                      {tags.map((t) => (
-                        <span key={t} className="rounded-full bg-blue-50 px-3 py-1 text-[10px] font-semibold text-blue-700">{t}</span>
-                      ))}
+                    <div className="relative p-6">
+                      <div className={`absolute -right-10 -top-10 h-32 w-32 rounded-full bg-gradient-to-br ${tint} opacity-10 transition-all duration-500 group-hover:scale-150 group-hover:opacity-20`} />
+                      <div className={`relative grid h-12 w-12 place-items-center rounded-xl bg-gradient-to-br ${tint} text-white shadow-lg transition-transform duration-300 group-hover:rotate-6 group-hover:scale-110`}>
+                        <Icon className="h-6 w-6" />
+                      </div>
+                      <h3 className="relative mt-5 text-lg font-extrabold">{title}</h3>
+                      <p className="relative mt-2 text-sm leading-6 text-slate-600">{text}</p>
+                      <div className="relative mt-4 flex flex-wrap gap-2">
+                        {tags.map((t) => (
+                          <span key={t} className="rounded-full bg-blue-50 px-3 py-1 text-[10px] font-semibold text-blue-700">{t}</span>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </TiltCard>
@@ -730,23 +787,22 @@ export function Home() {
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <SectionHead label="OUR PRODUCTS" title="Powerful Products for Real Business Needs" linkText="View All Products" linkTo="/products" />
           <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {products.map(({ title, description, icon: Icon, gradient, path }, i) => (
+            {products.map(({ title, description, icon: Icon, image, path }, i) => (
               <Reveal key={title} delay={i * 0.08}>
                 <TiltCard className="h-full">
                   <article className="group h-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-2xl hover:shadow-blue-900/10">
-                    <div className={`relative h-36 overflow-hidden bg-gradient-to-br ${gradient}`}>
-                      <div className="absolute -right-6 -top-8 h-32 w-32 rounded-full border border-white/25 transition-transform duration-700 group-hover:scale-125" />
-                      <Icon className="absolute right-5 top-5 h-16 w-16 text-white/35 transition-transform duration-500 group-hover:rotate-6 group-hover:scale-110" />
-                      <div className="absolute inset-x-5 bottom-0 flex h-16 items-end gap-1.5">
-                        {[40, 65, 50, 85, 60, 95, 75].map((h, idx) => (
-                          <motion.span key={idx} className="flex-1 origin-bottom rounded-t bg-white/40" style={{ height: `${h}%` }} initial={reduce ? false : { scaleY: 0 }} whileInView={{ scaleY: 1 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 + idx * 0.06, ease: EASE }} />
-                        ))}
-                      </div>
-                      <span className="absolute -bottom-4 left-4 grid h-9 w-9 place-items-center rounded-lg bg-white text-blue-600 shadow-md">
+                    <div className="relative h-40 overflow-hidden bg-slate-100">
+                      <img
+                        src={image}
+                        alt={title}
+                        loading="lazy"
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <span className="absolute bottom-3 left-3 grid h-9 w-9 place-items-center rounded-lg bg-white text-blue-600 shadow-md">
                         <Icon className="h-5 w-5" />
                       </span>
                     </div>
-                    <div className="p-5 pt-7">
+                    <div className="p-5">
                       <h3 className="text-base font-extrabold">{title}</h3>
                       <p className="mt-2 text-xs leading-5 text-slate-500">{description}</p>
                       <Link to={path} className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-blue-700">
